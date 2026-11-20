@@ -1,0 +1,49 @@
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#DDEBD9;padding-bottom:90px}
+.topbar{display:flex;align-items:center;gap:10px;padding:16px}
+.topbar h1{font-size:22px;margin:0}
+.card{background:#fff;margin:12px;border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.greenCard{background:#0A7A3A;color:#fff;border-radius:16px;padding:16px;margin:12px}
+.green{background:#0A7A3A;color:#fff;border:none;padding:13px;border-radius:10px;width:100%;font-weight:bold;font-size:15px;margin-top:8px;cursor:pointer}
+.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee}
+.bar{height:10px;background:#FF8A00;border-radius:20px;overflow:hidden;display:flex;margin:8px 0}
+.bar div{background:#0A7A3A}
+.pill{padding:5px 10px;border-radius:20px;color:#fff;font-size:12px;font-weight:bold}
+.paid{background:#0A7A3A}.pending{background:#FF8A00}
+.btn{border:1px solid #0A7A3A;background:#fff;color:#0A7A3A;padding:6px 8px;border-radius:8px;font-size:12px;margin:2px;cursor:pointer}
+input,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:8px;margin:6px 0}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:12px;border-top:1px solid #ddd;z-index:10}
+.nav span{font-size:12px;cursor:pointer;padding:6px 8px;border-radius:8px}
+.nav .active{background:#0A7A3A;color:#fff;font-weight:bold}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20;padding:20px;overflow:auto}
+.modalBox{background:#fff;border-radius:16px;padding:18px;max-width:420px;margin:40px auto}
+.historyItem{padding:10px;border:1px dashed #0A7A3A;border-radius:10px;margin:8px 0;background:#F6FFF7}
+#lockScreen{position:fixed;inset:0;background:#0A7A3A;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;color:#fff;overflow:auto}
+.avatar{width:44px;height:44px;background:#0A7A3A;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0}
+.avatar.gold{background:#FFC107;color:#000}
+.toggle{display:flex;background:#eee;border-radius:10px;padding:4px;margin:10px 0}
+.toggle button{flex:1;border:none;padding:10px;border-radius:8px;font-weight:bold;cursor:pointer}
+.toggle .active{background:#0A7A3A;color:#fff}
+.thisMonth{border:3px solid #FFC107;background:#FFFBEA!important}
+.calGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.calItem{border:1px solid #ddd;border-radius:12px;padding:10px;text-align:center;background:#F9F9F9}
+.calItem.current{border:3px solid #0A7A3A;background:#E8F5E9}
+.calItem.mine{border:3px solid #FFC107;background:#FFFBEA}
+.calItem.empty{opacity:.6;background:#f0f0f0}
+.countBox{background:linear-gradient(135deg,#0A7A3A,#25D366);color:#fff;border-radius:16px;padding:16px;text-align:center;margin:12px}
+.countNums{display:flex;justify-content:center;gap:10px;margin:12px 0}
+.countNums div{background:rgba(255,255,255,.2);border-radius:12px;padding:10px;min-width:62px}
+.countNums b{font-size:24px;display:block}
+.countNums span{font-size:11px}
+.mubarakBox{background:linear-gradient(135deg,#FFC107,#FF8A00);color:#000;border-radius:16px;padding:16px;text-align:center;margin:12px;border:3px solid #FFD700}
+.proofImg{width:100%;max-width:280px;border-radius:10px;border:2px solid #0A7A3A;margin:8px 0}
+.statBox{display:flex;gap:10px;margin:12px}
+.statBox div{flex:1;background:#fff;border-radius:14px;padding:12px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.successCircle{width:70px;height:70px;background:#0A7A3A;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:10px auto}
+.screen{display:none}.screen.active{display:block}
+.drawGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:12px 0}
+.drawBox{background:#0A7A3A;color:#fff;border-radius:16px;padding:20px 8px;text-align:center;cursor:pointer;font-weight:bold;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,.15)}
+.drawBox.disabled{background:#ccc;color:#666;cursor:not-allowed;opacity:.6}
+.drawBox.opened{background:#FFC107;color:#000;cursor:default;border:3px solid #FF8A00}
+.drawBox.taken{background:#FF8A00;color:#fff;cursor:not-allowed}
+.drawBox.locked{background:#333;color:#fff;cursor:not-allowed}

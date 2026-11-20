@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Committee Management</title>
+<meta name="theme-color" content="#0A7A3A">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="lockScreen">
+<div style="width:100%;max-width:340px;background:#fff;color:#000;border-radius:20px;padding:22px">
+<div class="avatar" style="width:70px;height:70px;font-size:28px;margin:0 auto">KF</div><h2>Committee Management</h2><p>December 2026 se Start</p>
+<div class="toggle"><button id="tabAdmin" class="active" onclick="switchTab('admin')">👑 Admin</button><button id="tabMember" onclick="switchTab('member')">👤 Member</button></div>
+<div id="adminLogin"><input id="pinInput" type="password" inputmode="numeric" maxlength="4" placeholder="Admin PIN - 1234" style="text-align:center;font-size:20px;letter-spacing:6px"><button class="green" onclick="checkAdminPIN()">🔓 Admin Login</button><p style="font-size:12px;color:#888">Default Admin PIN: 1234</p></div>
+<div id="memberLogin" style="display:none"><select id="loginMemberSelect"></select><input id="memberPin" type="password" inputmode="numeric" maxlength="4" placeholder="Member PIN = Draw No" style="text-align:center;font-size:20px;letter-spacing:6px"><button class="green" style="background:#FF8A00" onclick="checkMemberPIN()">👤 Member Login</button><p style="font-size:12px;color:#888">Member PIN = Draw No, jaise Draw #3 = <b>0003</b></p></div>
+<p id="pinError" style="color:red;display:none">Ghalat PIN!</p>
+</div>
+</div>
+<div id="memberView" style="display:none">
+<div class="card thisMonth" style="text-align:center"><h3>🌟 Is Mahine Ki Committee - December 2026 🌟</h3><h1 id="mvMonthName">---</h1><p id="mvMonthDetail"></p></div>
+<div id="mvMubarak" class="mubarakBox" style="display:none"><h2>🎉🎉 MUBARAK HO! 🎉🎉</h2><h1 id="mvMubarakName"></h1><p id="mvMubarakMsg"></p><button class="green" style="background:#25D366" onclick="shareMyMubarak()">💬 Mubarakbad Share Karo</button></div>
+<div class="countBox"><h3>⏳ Aapki Committee Ka Countdown</h3><p id="mvCommitteeDate"></p><div class="countNums"><div><b id="mvD">0</b><span>Din</span></div><div><b id="mvH">0</b><span>Ghante</span></div><div><b id="mvM">0</b><span>Minute</span></div><div><b id="mvS">0</b><span>Second</span></div></div><p id="mvCountdownMsg"></p></div>
+<div class="card" style="text-align:center"><div class="avatar" id="mvAvatar" style="width:70px;height:70px;font-size:24px;margin:0 auto">BA</div><h2 id="mvName">Bilal Ahmed</h2><span class="pill paid" id="mvDraw">Draw #3 • Member</span><p id="mvPhone"></p><p id="mvMyMonthInfo" style="font-weight:bold;color:#0A7A3A"></p><h1 id="mvStatus">PENDING</h1><p id="mvAmount"></p>
+<button class="green" onclick="goToDraw()">🎲 Draw Screen par Jao - Apna Box Kholo</button>
+<button class="green" onclick="openModal('proofModal')">📸 Payment Screenshot Upload Karo</button>
+<button class="green" style="background:#25D366" onclick="contactAdmin()">📱 Admin se WhatsApp</button><p id="mvProofStatus" style="font-size:13px;color:#666"></p></div>
+<div class="card"><h3>📅 Committee Calendar - Dec 2026 se Start</h3><p style="font-size:13px">Sirf December 2026 me Admin ki committee hai, baaqi Draw ke baad fill honge.</p><div class="calGrid" id="mvCalendar"></div><p id="mvMyMonthText" style="font-weight:bold;color:#0A7A3A;text-align:center"></p></div>
+<div class="card"><h3>🧾 Meri Payment History</h3><div id="mvHistory"></div></div>
+<button class="green" style="margin:12px;width:calc(100% - 24px);background:#ff4444" onclick="logout()">Logout</button>
+</div>
+<div id="adminView" style="display:none">
+<div id="dashboardScreen" class="screen active">
+<div class="topbar"><span>☰</span><h1>Committee<br>Management</h1></div>
+<div class="greenCard"><h3 style="margin:0">December Committee 2026</h3><p style="font-size:13px">Start: December 2026 • Admin ki Pehli Committee</p><p style="background:rgba(255,255,255,.2);display:inline-block;padding:6px 12px;border-radius:20px;font-size:12px">🛡️ Admin • Khalid Farooq • Draw #1 - DISABLED</p></div>
+<div class="statBox"><div>👥<br><b>Members</b><br><span id="statMembers">12</span></div><div>💰<br><b>Monthly</b><br>10,000 PKR</div><div>📅<br><b>Start</b><br>Dec 2026</div></div>
+<div class="card" style="border:2px solid #FF8A00"><h3>🎲 Draw - Abhi Baaki Hai</h3><p id="drawStatusText">Abhi kisi member ne Draw nahi khola.</p><button class="green" style="background:#FF8A00" onclick="showScreen('drawScreen')">🎲 Draw Screen Kholo</button><button class="green" style="background:#ff4444" onclick="resetCalendarAndDraw()">🔄 Calendar + Draw Reset Karo</button></div>
+<div class="card"><h3>📅 Committee Calendar - RESET</h3><p style="font-size:13px">Sirf December 2026 me Admin ki committee hai. Baaqi sab KHALI hain.</p><div class="calGrid" id="adminCalendar" style="margin-top:10px"></div><button class="green" style="background:#25D366" onclick="shareCalendar()">📤 Calendar WhatsApp par Share Karo</button></div>
+<div class="card"><h3>🎉 Auto WhatsApp Mubarakbad</h3><div class="row"><span>Auto Mubarakbad</span><b id="mubarakStatus">ON ✅</b></div><div class="row"><span>Last Mubarakbad</span><b id="lastMubarak">Abhi nahi bheji</b></div><label><input type="checkbox" id="mubarakAutoCheck" checked onchange="toggleMubarak()" style="width:auto"> Auto Mubarakbad ON</label><button class="green" style="background:#25D366" onclick="sendMubarakToCurrent()">💬 Is Mahine Wale ko Mubarakbad Bhejo</button></div>
+<div class="card"><h3>⏰ Monthly Auto-Reminder</h3><div class="row"><span>Auto-Reminder</span><b id="autoStatus">ON ✅</b></div><div class="row"><span>Last Reminder</span><b id="lastReminder">Abhi nahi bheja</b></div><button class="green" style="background:#FF8A00" onclick="toggleAuto()">ON / OFF Karo</button><button class="green" onclick="sendAutoReminder(true)">📤 Sab ko Auto-Reminder Bhejo</button></div>
+</div>
+<div id="drawScreen" class="screen">
+<div class="topbar"><span onclick="showScreen('dashboardScreen')" style="cursor:pointer">←</span><h2>🎲 Lucky Draw</h2></div>
+<div class="card" style="text-align:center"><h3>Apna Box Kholo - Random Month Payo!</h3><p style="font-size:13px">Box #1 = Admin - December 2026 - <b>DISABLED</b><br>Har member sirf <b>1 box</b> khol sakta hai. Ek baar khol liya to baaqi disable.<br>Khula hua box me <b>Random Month</b> milega.</p>
+<p id="drawMyInfo" style="font-weight:bold;color:#0A7A3A"></p>
+<div class="drawGrid" id="drawGrid"></div>
+<div id="drawResult" style="display:none" class="mubarakBox"><h2 id="drawResultTitle">🎉 Mubarak Ho!</h2><p id="drawResultText"></p><button class="green" style="background:#25D366" onclick="shareDrawResult()">📤 Draw Result Share Karo</button></div>
+<button class="green" style="background:#FF8A00" onclick="showScreen('dashboardScreen')">📅 Calendar Dekho</button></div>
+<div class="card"><h3>Draw Results</h3><div id="drawResultsList"></div></div>
+</div>
+<div id="membersScreen" class="screen">
+<div class="topbar"><span onclick="showScreen('dashboardScreen')" style="cursor:pointer">←</span><h2>Members (12)</h2></div>
+<div class="card"><div style="display:flex;justify-content:space-between"><span><b>Total Pot</b></span><b>120,000 PKR</b></div><h3>Collection Progress</h3><p><span id="collectedTxt">90,000 PKR collected</span> <b style="float:right" id="pctTxt">75%</b></p><div class="bar"><div id="barFill" style="width:75%"></div></div><p>📅 Next draw: <b>15 Dec 2026</b></p><p>🕒 Cycle: <b>1 of 12 - December 2026</b></p></div>
+<div class="card"><h3>Members Payment Status</h3><button class="green" onclick="openModal('memberModal')">+ Invite / Add Member</button><div id="memberList"></div></div>
+</div>
+<div id="paymentScreen" class="screen">
+<div class="topbar"><span onclick="showScreen('dashboardScreen')" style="cursor:pointer">←</span><h2>Payment</h2></div>
+<div class="greenCard"><h3 style="margin:0">Pay Monthly Contribution</h3><p>December 2026 • Due: 10,000 PKR</p></div>
+<div class="card"><h3>Payment Method</h3><p>🎷 <b>JazzCash 0300-1234567</b> <span class="pill paid">Paid</span></p><div style="border:2px dashed #0A7A3A;border-radius:12px;padding:14px;text-align:center;background:#F6FFF7"><input type="file" id="proofFile" accept="image/*"><p style="font-size:12px">Upload Payment Screenshot</p><img id="proofPreview" class="proofImg" style="display:none"><p id="proofFileName" style="font-size:12px"></p></div>
+<select id="payMember"></select><input id="payAmount" type="number" value="10000"><select id="payMonth"><option>December 2026</option><option>January 2027</option><option>February 2027</option></select><select id="payMethod"><option>JazzCash</option><option>Easypaisa</option><option>Bank Transfer</option><option>Cash</option></select>
+<button class="green" onclick="approveFromPayment()">Approve Payment</button><button class="green" style="background:#ddd;color:#000" onclick="showScreen('dashboardScreen')">Cancel</button></div>
+<div class="card" style="border:2px solid #0A7A3A"><h3>📸 Pending Payment Proofs</h3><div id="proofList"></div></div>
+</div>
+<div id="winnersScreen" class="screen">
+<div class="topbar"><span onclick="showScreen('dashboardScreen')" style="cursor:pointer">←</span><h2>Winners</h2></div>
+<div class="card thisMonth" style="text-align:center"><h2>🌟 Is Mahine Ki Committee - December 2026 🌟</h2><h1 id="monthName">---</h1><p id="monthDetail"></p><button class="green" style="background:#25D366" onclick="showWithdrawal()">💸 Withdrawal Karo - 120,000 PKR Bhejo</button></div>
+<div class="countBox"><h3>⏳ December Committee Countdown</h3><p id="adminCommitteeDate"></p><div class="countNums"><div><b id="adD">0</b><span>Din</span></div><div><b id="adH">0</b><span>Ghante</span></div><div><b id="adM">0</b><span>Minute</span></div><div><b id="adS">0</b><span>Second</span></div></div><p id="adminCountdownMsg"></p></div>
+<div id="withdrawalCard" class="card" style="text-align:center;display:none"><div class="successCircle">✓</div><h2>Withdrawal Successful!</h2><p>Amount</p><h1>120,000 PKR sent to<br>JazzCash 0300-1234567</h1><div class="row"><span>Winner:</span><b id="wdWinner">Khalid Farooq • Admin • Draw #1</b></div><div class="row"><span>Transaction ID:</span><b>JC-20261207</b></div><div class="row"><span>Date & Time:</span><b>7 Dec 2026 • 10:32 AM</b></div><h3 style="text-align:left">Transaction History</h3><div class="row"><span>✅ Withdrawal to JazzCash<br><small>Today, 10:32 AM • Successful</small></span><b>-120,000 PKR</b></div><button class="green" style="background:#25D366" onclick="shareWithdrawal()">📤 Receipt Share Karo</button></div>
+<div class="card"><h3>🕒 Payment History</h3><div id="historyList"></div><button class="green" style="background:#ddd;color:#000" onclick="clearHistory()">Clear History</button></div>
+<div class="card"><button class="green" onclick="openModal('settingsModal')">⚙️ Settings / Change PIN</button><button class="green" style="background:#ff4444" onclick="resetData()">Reset All Data</button><button class="green" style="background:#ddd;color:#000" onclick="logout()">🔒 Logout</button></div>
+</div>
+</div>
+<div id="proofModal" class="modal"><div class="modalBox"><h3>📸 Payment Screenshot Upload</h3><select id="proofMonth"><option>December 2026</option><option>January 2027</option><option>February 2027</option></select><input id="proofAmountModal" type="number" value="10000"><input id="proofTxn" placeholder="Transaction ID"><button class="green" onclick="uploadProof()">✅ Upload Proof</button><button class="green" style="background:#ddd;color:#000" onclick="closeModal('proofModal')">Cancel</button></div></div>
+<div id="viewProofModal" class="modal"><div class="modalBox" id="viewProofBox"></div></div>
+<div id="memberModal" class="modal"><div class="modalBox"><h3>+ Add New Member</h3><input id="mName" placeholder="Member Name"><input id="mDraw" type="number" placeholder="Draw No"><input id="mPhone" placeholder="Phone / WhatsApp"><select id="mStatus"><option value="Pending">Pending</option><option value="Paid">Paid</option></select><button class="green" onclick="addMember()">Save Member</button><button class="green" style="background:#ddd;color:#000" onclick="closeModal('memberModal')">Cancel</button></div></div>
+<div id="payModal" class="modal"><div class="modalBox"><h3>+ Add Payment</h3><select id="payMemberModal"></select><input id="payAmountModal" type="number" value="10000"><select id="payMonthModal"><option>December 2026</option><option>January 2027</option></select><select id="payMethodModal"><option>JazzCash</option><option>Easypaisa</option><option>Bank Transfer</option><option>Cash</option></select><button class="green" onclick="addPayment()">Mark as Paid + Receipt Banao</button><button class="green" style="background:#ddd;color:#000" onclick="closeModal('payModal')">Cancel</button></div></div>
+<div id="settingsModal" class="modal"><div class="modalBox"><h3>⚙️ Settings</h3><input id="oldPin" type="password" placeholder="Purana PIN"><input id="newPin" type="password" placeholder="Naya PIN (4 digits)" maxlength="4"><button class="green" onclick="changePIN()">Change PIN</button><button class="green" style="background:#ddd;color:#000" onclick="closeModal('settingsModal')">Close</button></div></div>
+<div id="receiptModal" class="modal"><div class="modalBox" id="receiptBox"></div></div>
+<div class="nav"><span id="navDashboard" class="active" onclick="showScreen('dashboardScreen')">Dashboard</span><span id="navDraw" onclick="showScreen('drawScreen')">🎲 Draw</span><span id="navMembers" onclick="showScreen('membersScreen')">Payments</span><span id="navPayment" onclick="showScreen('paymentScreen')">Members</span><span id="navWinners" onclick="showScreen('winnersScreen')">Winners</span></div>
+<script type="module" src="firebase.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
